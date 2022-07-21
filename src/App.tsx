@@ -5,23 +5,32 @@ import GameBoard from './components/GameBoard'
 import GameOverScreen from './components/GameOverScreen'
 
 import { WINNING_COMBINATIONS } from './data/utils'
+import PreviousBoards from './components/PreviousBoards'
 
 const App = () => {
   const [score, setScore] = useState([0, 0])
+  const [gameCount, setGameCount] = useState(0)
+  const [isGameEnded, setIsGameEnded] = useState(true)
+  const [gameEndText, setGameEndText] = useState('')
   const [isFirstPlayerTurn, setIsFirstPlayerTurn] = useState(true)
   const [firstPlayerPositions, setFirstPlayerPositions] = useState<number[]>([])
   const [secondPlayerPositions, setSecondPlayerPositions] = useState<number[]>([])
-  const [isGameEnded, setIsGameEnded] = useState(true)
-  const [gameCount, setGameCount] = useState(0)
   const [board, setBoard] = useState<string[]>(['', '', '', '', '', '', '', '', ''])
-  const [gameEndText, setGameEndText] = useState('')
+  const [prevBoards, setPrevBoards] = useState<string[][]>([])
 
   useEffect(() => {
+    console.log('firing')
     checkForEnd()
   }, [board])
 
   const changeTurn = () => {
     setIsFirstPlayerTurn((prev) => !prev)
+  }
+
+  const endGame = () => {
+    setIsGameEnded(true)
+    setGameCount((prev) => prev + 1)
+    setPrevBoards((prev) => [...prev, [...board]])
   }
 
   const startGame = () => {
@@ -41,8 +50,7 @@ const App = () => {
           return [...prev]
         })
         setGameEndText('Player 1 wins!')
-        setIsGameEnded(true)
-        setGameCount((prev) => prev + 1)
+        endGame()
       } else if (
         combination.every((number: number) => secondPlayerPositions.includes(number))
       ) {
@@ -51,11 +59,10 @@ const App = () => {
           return [...prev]
         })
         setGameEndText('Player 2 wins!')
-        setIsGameEnded(true)
-        setGameCount((prev) => prev + 1)
+        endGame()
       } else if (board.every((position) => position)) {
         setGameEndText('Draw!')
-        setIsGameEnded(true)
+        endGame()
       }
     })
   }
@@ -80,7 +87,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      <Header score={score} />
+      <Header score={score} isFirstPlayerTurn={isFirstPlayerTurn} />
       <GameBoard placeToken={placeToken} board={board} />
       {isGameEnded && (
         <GameOverScreen
@@ -89,6 +96,7 @@ const App = () => {
           gameEndText={gameEndText}
         />
       )}
+      {prevBoards.length > 0 && <PreviousBoards prevBoards={prevBoards} />}
     </div>
   )
 }
