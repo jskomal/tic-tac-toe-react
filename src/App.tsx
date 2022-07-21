@@ -42,6 +42,11 @@ const App = () => {
   }
 
   const checkForEnd = () => {
+    let shouldEnd = false
+    if (board.every((position) => position)) {
+      setGameEndText('Draw!')
+      shouldEnd = true
+    }
     WINNING_COMBINATIONS.forEach((combination) => {
       if (combination.every((number: number) => firstPlayerPositions.includes(number))) {
         setScore((prev) => {
@@ -49,7 +54,7 @@ const App = () => {
           return [...prev]
         })
         setGameEndText('Player 1 wins!')
-        endGame()
+        shouldEnd = true
       } else if (
         combination.every((number: number) => secondPlayerPositions.includes(number))
       ) {
@@ -58,13 +63,10 @@ const App = () => {
           return [...prev]
         })
         setGameEndText('Player 2 wins!')
-        endGame()
+        shouldEnd = true
       }
     })
-    if (board.every((position) => position) && !gameEndText) {
-      setGameEndText('Draw!')
-      endGame()
-    }
+    if (shouldEnd) endGame()
   }
 
   const placeToken = (position: number) => {
