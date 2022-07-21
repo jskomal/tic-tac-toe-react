@@ -93,3 +93,26 @@ body {
   align-items: center;
   justify-content: space-around;
 }
+
+.mini-tic {
+  border: 0.5px solid black;
+  height: 2vw;
+  width: 2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 50px; */
+}
+
+.mini-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.prev-board-view {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
