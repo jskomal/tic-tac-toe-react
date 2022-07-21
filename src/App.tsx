@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+
+import { WINNING_COMBINATIONS } from './data/utils'
 
 import Header from './components/Header'
 import GameBoard from './components/GameBoard'
 import GameOverScreen from './components/GameOverScreen'
-
-import { WINNING_COMBINATIONS } from './data/utils'
 import PreviousBoards from './components/PreviousBoards'
 
 const App = () => {
@@ -17,12 +17,9 @@ const App = () => {
   const [secondPlayerPositions, setSecondPlayerPositions] = useState<number[]>([])
   const [board, setBoard] = useState<string[]>(['', '', '', '', '', '', '', '', ''])
   const [prevBoards, setPrevBoards] = useState<string[][]>([])
-  const isFirstLoad = useRef(true)
 
   useEffect(() => {
-    if (!isFirstLoad.current) {
-      checkForEnd()
-    }
+    checkForEnd()
   }, [board])
 
   const changeTurn = () => {
@@ -36,7 +33,6 @@ const App = () => {
   }
 
   const startGame = () => {
-    isFirstLoad.current = false
     setGameEndText('')
     setIsFirstPlayerTurn(true)
     setFirstPlayerPositions([])
