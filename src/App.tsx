@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Header from './components/Header'
 import GameBoard from './components/GameBoard'
@@ -17,10 +17,12 @@ const App = () => {
   const [secondPlayerPositions, setSecondPlayerPositions] = useState<number[]>([])
   const [board, setBoard] = useState<string[]>(['', '', '', '', '', '', '', '', ''])
   const [prevBoards, setPrevBoards] = useState<string[][]>([])
+  const isFirstLoad = useRef(true)
 
   useEffect(() => {
-    console.log('firing')
-    checkForEnd()
+    if (!isFirstLoad.current) {
+      checkForEnd()
+    }
   }, [board])
 
   const changeTurn = () => {
@@ -34,6 +36,7 @@ const App = () => {
   }
 
   const startGame = () => {
+    isFirstLoad.current = false
     setGameEndText('')
     setIsFirstPlayerTurn(true)
     setFirstPlayerPositions([])
@@ -60,11 +63,12 @@ const App = () => {
         })
         setGameEndText('Player 2 wins!')
         endGame()
-      } else if (board.every((position) => position)) {
-        setGameEndText('Draw!')
-        endGame()
       }
     })
+    if (board.every((position) => position) && !gameEndText) {
+      setGameEndText('Draw!')
+      endGame()
+    }
   }
 
   const placeToken = (position: number) => {
