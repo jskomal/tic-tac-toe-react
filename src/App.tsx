@@ -8,7 +8,7 @@ import GameOverScreen from './components/GameOverScreen'
 import PreviousBoards from './components/PreviousBoards'
 
 const App = () => {
-  const [score, setScore] = useState([0, 0])
+  const [score, setScore] = useState([0, 0, 0])
   const [gameCount, setGameCount] = useState(0)
   const [isGameEnded, setIsGameEnded] = useState(true)
   const [gameEndText, setGameEndText] = useState('')
@@ -43,10 +43,6 @@ const App = () => {
 
   const checkForEnd = () => {
     let shouldEnd = false
-    if (board.every((position) => position)) {
-      setGameEndText('Draw!')
-      shouldEnd = true
-    }
     WINNING_COMBINATIONS.forEach((combination) => {
       if (combination.every((number: number) => firstPlayerPositions.includes(number))) {
         setScore((prev) => {
@@ -66,6 +62,14 @@ const App = () => {
         shouldEnd = true
       }
     })
+    if (board.every((position) => position) && !shouldEnd) {
+      setGameEndText('Draw!')
+      setScore((prev) => {
+        prev[2]++
+        return [...prev]
+      })
+      shouldEnd = true
+    }
     if (shouldEnd) endGame()
   }
 
