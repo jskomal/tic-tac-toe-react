@@ -1,18 +1,25 @@
 import React from 'react'
 
 type HeaderProps = {
-  score: number[]
+  score: TScore
   isFirstPlayerTurn: boolean
 }
 
+type TScore = {
+  player1Wins: number
+  player2Wins: number
+  draws: number
+}
+
 const Header = ({ score, isFirstPlayerTurn }: HeaderProps) => {
+  const { player1Wins, player2Wins, draws } = score
   return (
     <div>
       <h1>TIC TAC TOE</h1>
-      <span>{score[0]} to </span>
-      <span>{score[1]} with </span>
+      <span>{player1Wins} to </span>
+      <span>{player2Wins} with </span>
       <span>
-        {score[2]} {score[2] > 1 || score[2] === 0 ? 'draws' : 'draw'}
+        {draws} {draws > 1 || draws === 0 ? 'draws' : 'draw'}
       </span>
       <p>Player {isFirstPlayerTurn ? '🐨' : '🐰'}, it's your turn!</p>
     </div>
