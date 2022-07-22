@@ -69,7 +69,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
+  font-size: 10vw;
 }
 
 .game-over {
@@ -101,7 +101,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* font-size: 50px; */
 }
 
 .mini-view {
