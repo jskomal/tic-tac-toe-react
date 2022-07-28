@@ -13,6 +13,7 @@ body {
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  background-color: lightgrey;
 }
 img,
 picture,
@@ -70,6 +71,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 10vw;
+  background-color: white;
 }
 
 .game-over {
